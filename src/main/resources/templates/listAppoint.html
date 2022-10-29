@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Список взятых номерков</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css" th:href="@{/css/style.css}"/>
+</head>
+<body background="/img/med.jpg" >
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="navbar-nav">
+            <!-- <a class="nav-item nav-link active" href="/">Главная</a>-->
+            <a class="nav-item nav-link active"  href="/patients/personal">Личная страница</a>
+            <a  class="nav-item nav-link active" href="/appointments/add2">Новая запись</a>
+            <!--<a  class="nav-item nav-link" href="/listAppoint">Список номерков</a>-->
+            <a class="nav-link text-info" sec:authorize="isAuthenticated()" href="/logout">Выйти</a>
+            <!--<a  class="nav-item nav-link text-info font-weight-bold" href="/patients/add">ADMIN</a>-->
+            </li>
+        </div>
+    </nav>
+</header>
+
+
+<!--<section class="container m-top col-6">-->
+<div class="row">
+
+    <div class="col-4"></div>
+
+    <div class="col-7">
+    <h3 >⠀⠀⠀
+        <span th:utext="${patient.surname}"> </span>
+        <span th:utext="${patient.name}"></span>
+        <span th:utext="${patient.patronymic}"></span>
+    </h3>
+<br>
+    <div >
+        <label><h6>⠀⠀⠀Дата рождения:</h6></label>
+        <span th:utext="${patient.birth}"></span>
+    </div>
+    <div >
+        <label><h6>⠀⠀⠀Номер полиса:</h6></label>
+        <span th:utext="${patient.policyNumber}"></span>
+    </div>
+        <br>
+    <div >
+        <label><h6>⠀⠀⠀Существующие записи:</h6></label>
+            <!-- <span th:utext="${patient.policyNumber}"></span>-->
+        <h6 th:if="${patient.appointmentList.empty}">⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀(Нет текущих записей)</h6>
+
+        <div th:if="not ${patient.appointmentList.empty}" >
+
+
+            <div class="row" th:each="appointment : ${patient.appointmentList}">
+             <p>
+             <span class="col-2" th:utext="${appointment.dateAppointment}"></span>
+             <span  class="col-1" th:utext="${appointment.timeAppointment}"></span>
+                 <label >Врач:</label>
+                 <span th:utext="${appointment.doctor.surname}"></span>
+                 <span th:utext="${appointment.doctor.name}"></span>
+                 <span  th:utext="${appointment.doctor.patronymic}"></span>
+                <p>⠀⠀(</p>
+                 <span  th:utext="${appointment.doctor.typeDoctor.displayValue}"></span>
+                 <!--<span th:utext="${appointment.doctor.toString()}"></span>-->
+                <p>)</p>
+
+                 <div class="col-1">
+                        <form action="#"
+                              th:action="@{/appointments/delete/{id}(id=${appointment.id})}"
+                              th:object="${appointment}"
+                              method="get">
+                            <input type="submit" value="✘">
+                        </form>
+                 </div>
+                 </p>
+             </div>
+
+
+
+
+        </div>
+
+
+        </div>
+
+
+
+
+    </div>
+   <!-- <div class="col-4"></div>-->
+    <br>
+
+
+
+
+</div>
+<!--</section>-->
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<!--<html  th:fragment="layout (title, content)" xmlns:th="http://www.thymeleaf.org">-->
+<html th:fragment="layout (title, content)" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <title th:replace="${title}">Заголовок, если не передан</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css" th:href="@{/css/style.css}"/>
+</head>
+<body background="/img/med4.jpg">
+
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="navbar-nav">
+            <!-- <a class="nav-item nav-link active" href="/">Главная</a>-->
+            <a class="nav-item nav-link" href="/patients/add">База пациентов</a>
+            <a  class="nav-item nav-link" href="/doctors/add">База врачей</a>
+            <a  class="nav-item nav-link" href="/appointments/add">База записей</a>
+            <a class="nav-link text-info" sec:authorize="isAuthenticated()" href="/logout">Выйти</a>
+
+            </li>
+        </div>
+    </nav>
+</header>
+
+<main th:replace="${content}">
+    <p>Содержимое страницы, если не задан content</p>
+</main>
+
+</body>
+</html>

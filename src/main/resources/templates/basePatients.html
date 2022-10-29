@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+
+<html th:replace="~{base :: layout(~{::title}, ~{::section})}" xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Список пациентов</title>
+</head>
+
+<body>
+
+<section>
+
+    <!--<div class="form-group row">-->
+        <div class="row ">
+            <form method="post" th:action="@{/patients/search}" th:object="${textSearch}">
+              <!--  <label  class="col-lg-3 col-form-label">Поиск: </label>-->
+               <!-- <div class="col-lg-6"> </div>-->
+                <input class="col-lg-10" name="textSearch" type="text" th:object="${textSearch}" placeholder="номер полиса или фамилия">
+                <input class="col-lg-1" type="submit" value="✓⠀⠀⠀" >
+            </form>
+            <form method="get" th:action="@{/patients/add}">
+                <input class="col-lg-1" type="submit" value="✘⠀⠀⠀" >
+            </form>
+        </div>
+   <!-- </div>-->
+
+<div class="row">
+
+    <div class="col-8">
+        <div class="container m-top">
+            <h4>Зарегистрированные пациенты:</h4>
+            <br>
+            <div class="row">
+                <label class="col-1"><h6>Номер полиса</h6></label>
+                <label class="col-2"><h6>Фамилия</h6></label>
+                <label class="col-2"><h6>Имя</h6></label>
+                <label class="col-2"><h6>Отчество</h6></label>
+                <label class="col-2"><h6>Дата рождения</h6></label>
+            </div>
+
+            <div th:each="patient : ${patients}">
+                <div class="row">
+                    <div class="col-1">
+                        <span th:utext="${patient.policyNumber}"></span>
+                    </div>
+                    <div class="col-2">
+                        <span th:utext="${patient.surname}"> </span>
+                    </div>
+                    <div class="col-2">
+                        <span th:utext="${patient.name}"></span>
+                    </div>
+                    <div class="col-2">
+                        <span th:utext="${patient.patronymic}"></span>
+                    </div>
+                    <div class="col-2">
+                        <span th:utext="${patient.birth}"></span>
+                    </div>
+                    <!--<div class="col-1">
+                    &lt;!&ndash;<form action="#"
+                          th:action="@{/patients/delete/{policyNumber}(policyNumber=${patient.policyNumber})}"
+                          th:object="${patient}"
+                          method="get">
+                        <input type="submit" value="…">
+                    </form>&ndash;&gt;
+                    </div>-->
+                    <form action="#"
+                          th:action="@{/patients/delete/{policyNumber}(policyNumber=${patient.policyNumber})}"
+                          th:object="${patient}"
+                          method="get">
+                        <input type="submit" value="✘">
+                    </form>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="col-4" > <span class="border-left-dark">
+        <section class="container m-top">
+            <br><h4 align="center">Новый пациент:</h4>
+            <br>
+            <div>
+            <form  method="post" th:action="@{/patients/add}" th:object="${patient}">
+                <div class="form-group row">
+                    <label for="policyNumber" class="col-lg-5 col-form-label">Номер полиса: </label>
+                    <input class="col-lg-5" id="policyNumber" type="number" th:field="*{policyNumber}" placeholder="_____">
+                    <p th:if="${#fields.hasErrors('policyNumber')}" th:errors="*{policyNumber}"></p>
+                </div>
+
+                <div class="form-group row">
+                    <label for="surname" class="col-lg-5 col-form-label">Фамилия: </label>
+                    <input id="surname" class="col-lg-5" type="text" th:field="*{surname}" placeholder="Фамилия">
+                    <p th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></p>
+                </div>
+
+                <div class="form-group row">
+                    <label for="name" class="col-lg-5 col-form-label">Имя: </label>
+                    <input id="name" class="col-lg-5" type="text" th:field="*{name}" placeholder="Имя">
+                    <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+                </div>
+
+                <div class="form-group row">
+                    <label for="patronymic" class="col-lg-5 col-form-label">Отчество: </label>
+                    <input id="patronymic" class="col-lg-5" type="text" th:field="*{patronymic}" placeholder="Отчество">
+                    <p th:if="${#fields.hasErrors('patronymic')}" th:errors="*{patronymic}"></p>
+                </div>
+
+                <div class="form-group row">
+                    <label for="birth" class="col-lg-5 col-form-label">Дата рождения: </label>
+                    <input class="col-lg-5" id="birth" type="date" th:field="*{birth}">
+                    <p th:if="${#fields.hasErrors('birth')}" th:errors="*{birth}"></p>
+                </div>
+                <br>
+                <div align="center"><input type="submit" value="Добавить пациента" ></div>
+
+            </form>
+            </div>
+        </section>
+    </span>
+    </div>
+</div>
+</section>
+</body>
+</html>
